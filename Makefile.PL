@@ -10,7 +10,7 @@ WriteMakefile(
        AUTHOR     => 'Wolfgang Hommel <wolf@code-wizards.com>') : ()),
     'LIBS'		=> ['-ltowitoko'], # PUT YOUR CARD TERMINAL CTAPI LIBRARY HERE
     'DEFINE'		=> '', 
-    'INC'		=> '-I.', 
+    'INC'		=> '-I. -I/client/include', 
 	# Un-comment this if you add C files to link with later:
     # 'OBJECT'		=> '$(O_FILES)', # link all the C files too
 );

@@ -205,7 +205,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 #);
 #=cut
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 our $TRANSFER_BLOCK_SIZE = 128;
 
@@ -613,34 +613,38 @@ sub calculateMemorySize {
     
     my $atr_1 = substr($self->getATR(), 1, 1);
     $atr_1 = unpack ("C", $atr_1);
+   
+    # memory size calculation as suggested by Heiko Abraham 2003/06/05
+    $self->setMemorySize( 1 << ((($atr_1 & 120) >> 3) + 6 ) * 1 << 
+                          ( $atr_1 & 0x07) / 8);
     
-    my $i1 = ($atr_1 >> 3) & 0x07;
-    my $i2 = $atr_1 & 0x07;
+    # my $i1 = ($atr_1 >> 3) & 0x07;
+    # my $i2 = $atr_1 & 0x07;
 
-    my ($j1, $j2);
-    if ($i2 == 0) {
-        $j2 = 0;
-    }
-    elsif ($i2 == 1) {
-        $j2 = 1;
-    }
-    else {
-        $j2 = 1 << $i2;
-    }
+    # my ($j1, $j2);
+    # if ($i2 == 0) {
+    #    $j2 = 0;
+    # }
+    # elsif ($i2 == 1) {
+    #     $j2 = 1;
+    # }
+    # else {
+    #     $j2 = 1 << $i2;
+    # }
     
-    if ($i1 == 0) {
-        $j1 = 0;
-    }
-    else {
-        $j1 = 64 << $i1;
-    }
+    # if ($i1 == 0) {
+    #     $j1 = 0;
+    # }
+    # else {
+    #     $j1 = 64 << $i1;
+    # }
     
-    if ($j1 && $j2) {
-        $self->setMemorySize(($j1 * $j2) / 8);
-    }
-    else {
-        $self->setMemorySize(0);
-    }
+    # if ($j1 && $j2) {
+    #     $self->setMemorySize(($j1 * $j2) / 8);
+    # }
+    # else {
+    #     $self->setMemorySize(0);
+    # }
 }
 
 sub extractStructureInformation {
